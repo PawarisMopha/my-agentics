@@ -1,0 +1,48 @@
+﻿2026-11-10T15:59:28.0597489Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-11-10T15:59:28.0597924Z with:
+2026-11-10T15:59:28.0599421Z   script: const path = require('path');
+const actionsDir = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+const { setupGlobals } = require(path.join(actionsDir, 'setup_globals.cjs'));
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require(path.join(actionsDir, 'check_workflow_timestamp_api.cjs'));
+await main();
+
+2026-11-10T15:59:28.0604166Z   github-token: ***
+2026-11-10T15:59:28.0604427Z   debug: false
+2026-11-10T15:59:28.0604669Z   user-agent: actions/github-script
+2026-11-10T15:59:28.0609242Z   result-encoding: json
+2026-11-10T15:59:28.0609553Z   retries: 0
+2026-11-10T15:59:28.0609818Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-11-10T15:59:28.0610118Z env:
+2026-11-10T15:59:28.0610334Z   OTEL_EXPORTER_OTLP_ENDPOINT: 
+2026-11-10T15:59:28.0610602Z   OTEL_EXPORTER_OTLP_PROTOCOL: 
+2026-11-10T15:59:28.0610876Z   OTEL_SERVICE_NAME: gh-aw.daily-repo-status
+2026-11-10T15:59:28.0612284Z   OTEL_RESOURCE_ATTRIBUTES: gh-aw.workflow.name=Repo%20Status,gh-aw.repository=PawarisMopha/my-agentics,gh-aw.run.id=42849995424,github.run_id=42849995424,gh-aw.engine.id=copilot
+2026-11-10T15:59:28.0613018Z   OTEL_EXPORTER_OTLP_HEADERS: 
+2026-11-10T15:59:28.0613278Z   GH_AW_OTLP_LOGS_ENABLED: 
+2026-11-10T15:59:28.0613530Z   GH_AW_OTLP_LOGS_MAX_BYTES: 
+2026-11-10T15:59:28.0613819Z   GH_AW_OTLP_ENDPOINTS: [{"url":"","headers":""}]
+2026-11-10T15:59:28.0614127Z   GH_AW_OTLP_IF_MISSING: ignore
+2026-11-10T15:59:28.0614386Z   GH_AW_MAX_DAILY_AI_CREDITS: 5000
+2026-11-10T15:59:28.0614642Z   GH_AW_RUNTIME_FEATURES: 
+2026-11-10T15:59:28.0614936Z   GITHUB_AW_OTEL_TRACE_ID: 875ec25dbb577b131d01f2936c87732f
+2026-11-10T15:59:28.0615301Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: 1aba76c358e751e8
+2026-11-10T15:59:28.0615612Z   GITHUB_AW_OTEL_JOB_START_MS: 1794326361225
+2026-11-10T15:59:28.0615922Z   GH_AW_WORKFLOW_FILE: daily-repo-status.lock.yml
+2026-11-10T15:59:28.0616471Z   GH_AW_CONTEXT_WORKFLOW_REF: PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main
+2026-11-10T15:59:28.0616997Z ##[endgroup]
+2026-11-10T15:59:28.2130362Z Checking for stale lock file using frontmatter hash:
+2026-11-10T15:59:28.2152865Z   Source: .github/workflows/daily-repo-status.md
+2026-11-10T15:59:28.2169561Z   Lock file: .github/workflows/daily-repo-status.lock.yml
+2026-11-10T15:59:28.2175627Z Using immutable workflow revision from GITHUB_WORKFLOW_SHA: c4f71f7bd5bf3a541e09cf276deeb19ded195bd2
+2026-11-10T15:59:28.2179389Z Env workflow ref already identifies this workflow, skipping referenced_workflows API lookup
+2026-11-10T15:59:28.2183484Z GITHUB_WORKFLOW_REF: PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main
+2026-11-10T15:59:28.2187835Z GH_AW_CONTEXT_WORKFLOW_REF: PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main (available as env fallback)
+2026-11-10T15:59:28.2190032Z GITHUB_REPOSITORY: PawarisMopha/my-agentics
+2026-11-10T15:59:28.2191475Z Resolved source repo: PawarisMopha/my-agentics @ c4f71f7bd5bf3a541e09cf276deeb19ded195bd2
+2026-11-10T15:59:28.2195448Z Same-repo invocation: checking out PawarisMopha/my-agentics @ c4f71f7bd5bf3a541e09cf276deeb19ded195bd2
+2026-11-10T15:59:29.0230492Z Frontmatter hash comparison:
+2026-11-10T15:59:29.0233542Z   Lock file hash:    11f86bbd1abe0c0ff0877e6e97d762ea4672669c92d6fadcc69efadbec7f3279
+2026-11-10T15:59:29.0236387Z   Recomputed hash:   11f86bbd1abe0c0ff0877e6e97d762ea4672669c92d6fadcc69efadbec7f3279
+2026-11-10T15:59:29.0239619Z   Status: ✅ Hashes match
+2026-11-10T15:59:29.0242491Z ✅ Lock file is up to date (hashes match)

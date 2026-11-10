@@ -1,0 +1,1 @@
+﻿2026-11-10T15:59:34.2731743Z ##[error]Can't find 'action.yml', 'action.yaml' or 'Dockerfile' under '/home/runner/work/my-agentics/my-agentics/actions/setup'. Did you forget to run actions/checkout before running your local action?
