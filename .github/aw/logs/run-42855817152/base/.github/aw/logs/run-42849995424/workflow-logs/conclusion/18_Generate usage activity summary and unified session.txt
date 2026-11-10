@@ -1,0 +1,211 @@
+﻿2026-11-10T16:00:15.8322161Z ##[group]Run actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
+2026-11-10T16:00:15.8322587Z with:
+2026-11-10T16:00:15.8323785Z   script: const path = require('path');
+const actionsDir = path.join(process.env.RUNNER_TEMP, 'gh-aw', 'actions');
+const { setupGlobals } = require(path.join(actionsDir, 'setup_globals.cjs'));
+setupGlobals(core, github, context, exec, io, getOctokit);
+const { main } = require(path.join(actionsDir, 'generate_usage_artifacts.cjs'));
+await main();
+
+2026-11-10T16:00:15.8327067Z   github-token: ***
+2026-11-10T16:00:15.8327293Z   debug: false
+2026-11-10T16:00:15.8327512Z   user-agent: actions/github-script
+2026-11-10T16:00:15.8327783Z   result-encoding: json
+2026-11-10T16:00:15.8328422Z   retries: 0
+2026-11-10T16:00:15.8329083Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-11-10T16:00:15.8329414Z env:
+2026-11-10T16:00:15.8329618Z   OTEL_EXPORTER_OTLP_ENDPOINT: 
+2026-11-10T16:00:15.8329879Z   OTEL_EXPORTER_OTLP_PROTOCOL: 
+2026-11-10T16:00:15.8330150Z   OTEL_SERVICE_NAME: gh-aw.daily-repo-status
+2026-11-10T16:00:15.8330961Z   OTEL_RESOURCE_ATTRIBUTES: gh-aw.workflow.name=Repo%20Status,gh-aw.repository=PawarisMopha/my-agentics,gh-aw.run.id=42849995424,github.run_id=42849995424,gh-aw.engine.id=copilot
+2026-11-10T16:00:15.8331706Z   OTEL_EXPORTER_OTLP_HEADERS: 
+2026-11-10T16:00:15.8331961Z   GH_AW_OTLP_LOGS_ENABLED: 
+2026-11-10T16:00:15.8332194Z   GH_AW_OTLP_LOGS_MAX_BYTES: 
+2026-11-10T16:00:15.8332461Z   GH_AW_OTLP_ENDPOINTS: [{"url":"","headers":""}]
+2026-11-10T16:00:15.8332758Z   GH_AW_OTLP_IF_MISSING: ignore
+2026-11-10T16:00:15.8333339Z   GH_AW_JOB_DISPLAY_NAMES: {"activation":"activation","agent":"agent","conclusion":"conclusion","detection":"detection","safe_outputs":"safe_outputs"}
+2026-11-10T16:00:15.8334478Z   GH_AW_JOB_RESULTS: {"activation":{"result":"failure"},"agent":{"result":"skipped"},"detection":{"result":"skipped"},"safe_outputs":{"result":"skipped"}}
+2026-11-10T16:00:15.8335306Z   GH_AW_JOB_TIMING_ELIGIBLE: {"activation":true,"agent":true,"conclusion":true,"detection":true,"safe_outputs":true}
+2026-11-10T16:00:15.8335814Z   GH_AW_RUNTIME_FEATURES: 
+2026-11-10T16:00:15.8336098Z   GITHUB_AW_OTEL_TRACE_ID: 875ec25dbb577b131d01f2936c87732f
+2026-11-10T16:00:15.8336456Z   GITHUB_AW_OTEL_PARENT_SPAN_ID: eedcac7d6e96df29
+2026-11-10T16:00:15.8336767Z   GITHUB_AW_OTEL_JOB_START_MS: 1794326406841
+2026-11-10T16:00:15.8337087Z   GH_AW_GRADER_MANIFEST_0: {"version":2,"graders":[]}
+2026-11-10T16:00:15.8337396Z   GH_AW_GRADER_MANIFEST_CHUNKS: 1
+2026-11-10T16:00:15.8337646Z   GH_AW_JOB_DURATIONS: 
+2026-11-10T16:00:15.8338119Z   GH_AW_DAILY_AI_CREDITS_GUARDRAIL_STATUS: skipped
+2026-11-10T16:00:15.8338454Z   GH_AW_DAILY_AI_CREDITS_EXCEEDED: false
+2026-11-10T16:00:15.8338741Z   GH_AW_DAILY_AI_CREDITS_TOTAL: 
+2026-11-10T16:00:15.8339004Z   GH_AW_DAILY_AI_CREDITS_ESTIMATED: 
+2026-11-10T16:00:15.8339308Z   GH_AW_DAILY_AI_CREDITS_THRESHOLD: 
+2026-11-10T16:00:15.8339563Z ##[endgroup]
+2026-11-10T16:00:16.0182476Z safe-output-items manifest not found at /tmp/gh-aw/safe-output-items.jsonl — safe-outputs-items artifact may not have been downloaded
+2026-11-10T16:00:16.1805200Z /tmp/gh-aw/usage/activity/summary.json
+2026-11-10T16:00:17.0388918Z === Unified session ===
+2026-11-10T16:00:17.0389465Z File format version: 1
+2026-11-10T16:00:17.0390747Z Records: 52 (collector=3, workflow=6, otel=1, github_api=39, guardrail=1, grader=2)
+2026-11-10T16:00:17.0391164Z 
+2026-11-10T16:00:17.0391485Z Chronological trace (user prompts omitted; untimed observations follow):
+2026-11-10T16:00:17.0392207Z 
+2026-11-10T16:00:17.0392445Z [1] collector/conclusion session.format version=1 [file metadata]
+2026-11-10T16:00:17.0392899Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0393133Z 
+2026-11-10T16:00:17.0395665Z [2] workflow/activation workflow.info engineId=copilot model=auto requestedModel=auto triggerType=workflow_dispatch awfVersion=v0.29.11 mcpgVersion= agentVersion=1.0.103 workflow=Repo Status workflowId=PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main workflowCallId=42849995424-1:PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main callerWorkflowRef=PawarisMopha/my-agentics/.github/workflows/daily-repo-status.lock.yml@refs/heads/main repository=PawarisMopha/my-agentics runId=42849995424 runAttempt=1 ref=refs/heads/main sha=c4f71f7bd5bf3a541e09cf276deeb19ded195bd2 actor=PawarisMopha targetRepo= +0s
+2026-11-10T16:00:17.0463980Z   path=aw_info.json
+2026-11-10T16:00:17.0465883Z 
+2026-11-10T16:00:17.0466593Z [3] workflow/activation model.config [extension payload omitted] [untimed]
+2026-11-10T16:00:17.0467796Z   path=aw_info.json
+2026-11-10T16:00:17.0468512Z 
+2026-11-10T16:00:17.0469471Z [4] otel/agent otel.span name=gh-aw.conclusion.setup traceId=875ec25dbb577b131d01f2936c87732f spanId=eedcac7d6e96df29 parentSpanId=1aba76c358e751e8 code=1 +39.101s
+2026-11-10T16:00:17.0470234Z   path=otel.jsonl
+2026-11-10T16:00:17.0470363Z 
+2026-11-10T16:00:17.0470876Z [5] github_api/workflow github_api.rate_limit source=response_headers operation=actions.listJobsForWorkflowRun resource=core remaining=4992 limit=5000 +9.905s
+2026-11-10T16:00:17.0472736Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0472937Z 
+2026-11-10T16:00:17.0474094Z [6] github_api/workflow github_api.rate_limit source=response_headers operation=search.issuesAndPullRequests resource=search remaining=29 limit=30 +0.522s
+2026-11-10T16:00:17.0474811Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0474978Z 
+2026-11-10T16:00:17.0475461Z [7] github_api/workflow github_api.rate_limit source=response_headers operation=search.issuesAndPullRequests resource=search remaining=28 limit=30 +0.503s
+2026-11-10T16:00:17.0476142Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0476305Z 
+2026-11-10T16:00:17.0477065Z [8] github_api/workflow github_api.rate_limit source=response_headers operation=search.issuesAndPullRequests resource=search remaining=27 limit=30 +0.517s
+2026-11-10T16:00:17.0477750Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0480870Z 
+2026-11-10T16:00:17.0484720Z [9] github_api/workflow github_api.rate_limit source=response_headers operation=issues.create resource=core remaining=4999 limit=5000 +1.166s
+2026-11-10T16:00:17.0485451Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0485627Z 
+2026-11-10T16:00:17.0486128Z [10] github_api/workflow github_api.rate_limit source=response_headers operation=search.issuesAndPullRequests resource=search remaining=26 limit=30 +0.588s
+2026-11-10T16:00:17.0487195Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0487389Z 
+2026-11-10T16:00:17.0488401Z [11] github_api/workflow github_api.rate_limit source=response_headers operation=rateLimit.get resource=core remaining=4999 limit=5000 +0.615s
+2026-11-10T16:00:17.0489710Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0489901Z 
+2026-11-10T16:00:17.0490699Z [12] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=core remaining=4999 limit=5000 +0s
+2026-11-10T16:00:17.0491739Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0491926Z 
+2026-11-10T16:00:17.0492727Z [13] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=search remaining=30 limit=30 +0s
+2026-11-10T16:00:17.0494019Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0494206Z 
+2026-11-10T16:00:17.0495260Z [14] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=graphql remaining=5000 limit=5000 +0s
+2026-11-10T16:00:17.0496334Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0496799Z 
+2026-11-10T16:00:17.0497655Z [15] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=integration_manifest remaining=5000 limit=5000 +0s
+2026-11-10T16:00:17.0544308Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0544663Z 
+2026-11-10T16:00:17.0545183Z [16] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=source_import remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0546124Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0546305Z 
+2026-11-10T16:00:17.0546819Z [17] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=code_scanning_autofix remaining=10 limit=10 +0s
+2026-11-10T16:00:17.0548802Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0549018Z 
+2026-11-10T16:00:17.0549588Z [18] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=actions_runner_registration remaining=10000 limit=10000 +0s
+2026-11-10T16:00:17.0550335Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0550508Z 
+2026-11-10T16:00:17.0550976Z [19] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=scim remaining=15000 limit=15000 +0s
+2026-11-10T16:00:17.0551665Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0551830Z 
+2026-11-10T16:00:17.0552351Z [20] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=dependency_snapshots remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0553071Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0553237Z 
+2026-11-10T16:00:17.0554364Z [21] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=dependency_sbom remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0555086Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0555262Z 
+2026-11-10T16:00:17.0555754Z [22] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=audit_log remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0556444Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0556787Z 
+2026-11-10T16:00:17.0557296Z [23] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=audit_log_streaming remaining=15 limit=15 +0s
+2026-11-10T16:00:17.0558225Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0558402Z 
+2026-11-10T16:00:17.0558958Z [24] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=code_search remaining=10 limit=10 +0s
+2026-11-10T16:00:17.0560544Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0560729Z 
+2026-11-10T16:00:17.0561271Z [25] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=copilot_usage_records remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0561996Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0562174Z 
+2026-11-10T16:00:17.0562717Z [26] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_before resource=enterprise_token_inventory remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0563440Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0563602Z 
+2026-11-10T16:00:17.0564026Z [27] github_api/workflow github_api.rate_limit source=response_headers operation=rateLimit.get resource=core remaining=4999 limit=5000 +0.162s
+2026-11-10T16:00:17.0564646Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0564809Z 
+2026-11-10T16:00:17.0565887Z [28] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=core remaining=4999 limit=5000 +0s
+2026-11-10T16:00:17.0570640Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0571935Z 
+2026-11-10T16:00:17.0572991Z [29] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=search remaining=30 limit=30 +0s
+2026-11-10T16:00:17.0573657Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0573826Z 
+2026-11-10T16:00:17.0574291Z [30] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=graphql remaining=5000 limit=5000 +0s
+2026-11-10T16:00:17.0575534Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0575713Z 
+2026-11-10T16:00:17.0576690Z [31] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=integration_manifest remaining=5000 limit=5000 +0s
+2026-11-10T16:00:17.0579967Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0580516Z 
+2026-11-10T16:00:17.0583248Z [32] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=source_import remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0583968Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0584524Z 
+2026-11-10T16:00:17.0585024Z [33] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=code_scanning_autofix remaining=10 limit=10 +0s
+2026-11-10T16:00:17.0585695Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0585863Z 
+2026-11-10T16:00:17.0586396Z [34] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=actions_runner_registration remaining=10000 limit=10000 +0s
+2026-11-10T16:00:17.0587118Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0587272Z 
+2026-11-10T16:00:17.0588145Z [35] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=scim remaining=15000 limit=15000 +0s
+2026-11-10T16:00:17.0589218Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0589388Z 
+2026-11-10T16:00:17.0589884Z [36] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=dependency_snapshots remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0592106Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0592290Z 
+2026-11-10T16:00:17.0592851Z [37] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=dependency_sbom remaining=100 limit=100 +0s
+2026-11-10T16:00:17.0650672Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0651101Z 
+2026-11-10T16:00:17.0651607Z [38] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=audit_log remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0652283Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0652475Z 
+2026-11-10T16:00:17.0652962Z [39] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=audit_log_streaming remaining=15 limit=15 +0s
+2026-11-10T16:00:17.0653642Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0653798Z 
+2026-11-10T16:00:17.0654250Z [40] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=code_search remaining=10 limit=10 +0s
+2026-11-10T16:00:17.0654898Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0655065Z 
+2026-11-10T16:00:17.0655571Z [41] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=copilot_usage_records remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0656470Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0656805Z 
+2026-11-10T16:00:17.0657334Z [42] github_api/workflow github_api.rate_limit source=rate_limit_api operation=report_failed_jobs_after resource=enterprise_token_inventory remaining=1750 limit=1750 +0s
+2026-11-10T16:00:17.0670735Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0670944Z 
+2026-11-10T16:00:17.0671500Z [43] github_api/workflow github_api.rate_limit source=response_headers operation=actions.listJobsForWorkflowRunAttempt resource=core remaining=4991 limit=5000 +1.167s
+2026-11-10T16:00:17.0672234Z   path=github_rate_limits.jsonl
+2026-11-10T16:00:17.0672407Z 
+2026-11-10T16:00:17.0672652Z [44] guardrail/activation guardrail.daily_aic status=skipped exceeded=false [untimed]
+2026-11-10T16:00:17.0673098Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0673258Z 
+2026-11-10T16:00:17.0673561Z [45] workflow/conclusion workflow.job_result jobId=activation result=failure durationMs=39000 [untimed]
+2026-11-10T16:00:17.0675774Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0675955Z 
+2026-11-10T16:00:17.0676183Z [46] workflow/conclusion workflow.job_result jobId=agent result=skipped [untimed]
+2026-11-10T16:00:17.0676612Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0700296Z 
+2026-11-10T16:00:17.0700636Z [47] workflow/conclusion workflow.job_result jobId=detection result=skipped [untimed]
+2026-11-10T16:00:17.0702045Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0702477Z 
+2026-11-10T16:00:17.0704336Z [48] workflow/conclusion workflow.job_result jobId=safe_outputs result=skipped [untimed]
+2026-11-10T16:00:17.0704849Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0705018Z 
+2026-11-10T16:00:17.0705277Z [49] collector/conclusion model.baseline_estimate [extension payload omitted] [untimed]
+2026-11-10T16:00:17.0707392Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0708021Z 
+2026-11-10T16:00:17.0708606Z [50] collector/conclusion session.collection sources=7 warnings=0 untimedEvents=8 absentComponents=[   "agent",   "mcp",   "firewall",   "safe_output",   "experiment",   "eval" ] [untimed]
+2026-11-10T16:00:17.0709365Z   path=usage/aw_session.jsonl
+2026-11-10T16:00:17.0709530Z 
+2026-11-10T16:00:17.0709676Z [51] grader/conclusion grader.manifest graders=10 [untimed]
+2026-11-10T16:00:17.0712184Z   path=usage/graders/grader_manifest.json
+2026-11-10T16:00:17.0712752Z 
+2026-11-10T16:00:17.0715256Z [52] grader/conclusion grader.result results=[id=tool-success-rate value=1 unit=ratio passed=true status=pass; id=tool-failure-count value=0 unit=count passed=true status=pass; id=retries value=0 unit=count passed=true status=pass; id=loops value=0 unit=count passed=true status=pass; id=trajectory-efficiency value=1 unit=ratio passed=null status=pass; id=execution-step-count value=null unit=count passed=null status=unavailable; id=execution-duration value=null unit=ms passed=null status=unavailable; id=working-set-rebuild-factor value=null unit=factor passed=null status=unavailable; id=context-growth value=null unit=factor passed=null status=unavailable; id=artifact-production value=0 unit=count passed=null status=pass] [untimed]
+2026-11-10T16:00:17.0727297Z   path=usage/graders/grader_results.json
+2026-11-10T16:00:17.0774499Z /tmp/gh-aw/usage/activity/summary.json
+2026-11-10T16:00:17.0777626Z /tmp/gh-aw/usage/aw_info.json
+2026-11-10T16:00:17.0781221Z /tmp/gh-aw/usage/aw_session.jsonl
+2026-11-10T16:00:17.0785336Z /tmp/gh-aw/usage/detection/token_usage.jsonl
+2026-11-10T16:00:17.0789461Z /tmp/gh-aw/usage/github_rate_limits.jsonl
+2026-11-10T16:00:17.0793027Z /tmp/gh-aw/usage/graders/grader_manifest.json
+2026-11-10T16:00:17.0801026Z /tmp/gh-aw/usage/graders/grader_results.json
