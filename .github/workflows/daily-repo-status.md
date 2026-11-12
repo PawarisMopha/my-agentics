@@ -11,7 +11,7 @@ on:
 
 engine:
   id: gemini
-  model: gemini-3.1-flash
+  model: gemini-3-flash-preview
 source: githubnext/agentics/workflows/repo-status.md@main
 ---
 
