@@ -11,10 +11,7 @@ on:
 
 engine:
   id: copilot
-  model: copilot/auto
-  fallback-models:
-    - copilot/gpt-5.6
-    - copilot/claude-haiku-5.5
+  model: auto
 source: githubnext/agentics/workflows/repo-status.md@main
 ---
 
