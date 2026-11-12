@@ -11,7 +11,7 @@ on:
 
 engine:
   id: copilot
-  model: auto
+  model: gemini-3.1-flash
 source: githubnext/agentics/workflows/repo-status.md@main
 ---
 
