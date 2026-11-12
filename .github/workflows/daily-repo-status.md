@@ -21,7 +21,6 @@ permissions:
   issues: read
   pull-requests: read
 
-copilot-requests: write
 network: defaults
 
 tools:
