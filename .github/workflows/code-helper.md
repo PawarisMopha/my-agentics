@@ -1,19 +1,27 @@
 ---
 name: AI Code Helper
+
 on:
   issues:
     types: [opened, labeled]
   workflow_dispatch:
+
 permissions:
   contents: read
   issues: read
   pull-requests: read
-engine: copilot
+
+engine:
+  id: gemini
+  model: gemini-3-flash-preview
+
 tools:
   bash: true
   edit:
   github:
+
 safe-outputs:
+  threat-detection: false
   create-pull-request:
     title-prefix: "[AI Code] "
     labels: [ai-generated]
