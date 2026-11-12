@@ -11,34 +11,10 @@ on:
 
 engine:
   id: copilot
-  model: auto
+  model: copilot/auto
   fallback-models:
-    - gpt-5.6
-    - claude-haiku-5.5
-
-permissions:
-  contents: read
-  issues: read
-  pull-requests: read
-
-network: defaults
-
-tools:
-  bash: ["cat", "ls", "find", "grep", "head", "tail", "wc"]
-  github:
-    # If in a public repo, setting `lockdown: false` allows
-    # reading issues, pull requests and comments from 3rd-parties
-    # If in a private repo this has no particular effect.
-    lockdown: false
-    min-integrity: none # This workflow is allowed to examine and comment on any issues
-
-safe-outputs:
-  mentions: false
-  allowed-github-references: []
-  create-issue:
-    title-prefix: "[repo-status] "
-    labels: [report, daily-status]
-    close-older-issues: true
+    - copilot/gpt-5.6
+    - copilot/claude-haiku-5.5
 source: githubnext/agentics/workflows/repo-status.md@main
 ---
 
