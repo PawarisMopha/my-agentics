@@ -1,0 +1,105 @@
+{
+  "cli_version": "v1.2.2",
+  "run_id": 42874446626,
+  "processed_at": "2026-11-10T18:22:25.907170166Z",
+  "run": {
+    "databaseId": 42874446626,
+    "number": 4,
+    "url": "https://github.com/PawarisMopha/my-agentics/actions/runs/42874446626",
+    "status": "in_progress",
+    "conclusion": "",
+    "workflowName": "Repo Status",
+    "workflowPath": ".github/workflows/daily-repo-status.lock.yml",
+    "createdAt": "2026-11-10T18:21:57Z",
+    "startedAt": "2026-11-10T18:21:57Z",
+    "updatedAt": "2026-11-10T18:22:02Z",
+    "event": "workflow_dispatch",
+    "headBranch": "main",
+    "headSha": "c7f34424850676f355c0a312f0df0365e5f270d5",
+    "displayTitle": "Repo Status",
+    "attempt": 1,
+    "repository": "PawarisMopha/my-agentics",
+    "actor": "PawarisMopha",
+    "Duration": 5000000000,
+    "ActionMinutes": 0,
+    "TokenUsage": 0,
+    "Turns": 0,
+    "TurnsAvailable": false,
+    "ErrorCount": 0,
+    "WarningCount": 0,
+    "MissingToolCount": 0,
+    "MissingDataCount": 0,
+    "NoopCount": 0,
+    "AvgTimeBetweenTurns": 0,
+    "LogsPath": "/data/data/com.termux/files/home/my-agentics/.github/aw/logs/run-42874446626",
+    "DownloadDuration": 0,
+    "DownloadSizeBytes": 0
+  },
+  "metrics": {
+    "TokenUsage": 0,
+    "EstimatedCost": 0,
+    "Turns": 0,
+    "ToolCalls": null,
+    "ToolSequences": null,
+    "AvgTimeBetweenTurns": 0,
+    "MaxTimeBetweenTurns": 0,
+    "MedianTimeBetweenTurns": 0,
+    "StdDevTimeBetweenTurns": 0
+  },
+  "task_domain": {
+    "name": "code_fix",
+    "label": "Code Fix",
+    "reason": "The workflow appears oriented toward code changes or pull request review."
+  },
+  "behavior_fingerprint": {
+    "execution_style": "directed",
+    "tool_breadth": "narrow",
+    "actuation_style": "read_only",
+    "resource_profile": "lean",
+    "dispatch_mode": "standalone",
+    "agentic_fraction": 0
+  },
+  "access_analysis": null,
+  "firewall_analysis": null,
+  "redacted_domains_analysis": null,
+  "missing_tools": null,
+  "missing_data": null,
+  "noops": null,
+  "mcp_failures": null,
+  "job_details": [
+    {
+      "id": 130033928425,
+      "run_id": 42874446626,
+      "run_url": "https://api.github.com/repos/PawarisMopha/my-agentics/actions/runs/42874446626",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVpeaBc8AAAAeRqBI6Q",
+      "head_sha": "c7f34424850676f355c0a312f0df0365e5f270d5",
+      "url": "https://api.github.com/repos/PawarisMopha/my-agentics/actions/jobs/130033928425",
+      "html_url": "https://github.com/PawarisMopha/my-agentics/actions/runs/42874446626/job/130033928425",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-11-10T18:21:59Z",
+      "started_at": "2026-11-10T18:22:01Z",
+      "name": "activation",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "in_progress",
+          "number": 1,
+          "started_at": "2026-11-10T18:22:03Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/PawarisMopha/my-agentics/check-runs/130033928425",
+      "labels": [
+        "ubuntu-slim"
+      ],
+      "runner_id": 1000008040,
+      "runner_name": "GitHub Actions 1000008040",
+      "runner_group_name": "GitHub Actions",
+      "workflow_name": "Repo Status",
+      "head_branch": "main",
+      "Duration": 0
+    }
+  ],
+  "artifacts_list": null
+}
