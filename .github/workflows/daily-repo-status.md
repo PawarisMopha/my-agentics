@@ -9,9 +9,7 @@ on:
   schedule: daily
   workflow_dispatch:
 
-engine:
-  id: copilot
-  model: gemini-3.1-flash
+engine: gemini
 source: githubnext/agentics/workflows/repo-status.md@main
 ---
 
