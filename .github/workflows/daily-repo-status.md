@@ -11,10 +11,10 @@ on:
 
 engine:
   id: copilot
-  model: claude-sonnet-5.5
+  model: auto
   fallback-models:
-    - gpt-4o
-    - claude-sonnet-4.5
+    - gpt-5.6
+    - claude-haiku-5.5
 
 permissions:
   contents: read
