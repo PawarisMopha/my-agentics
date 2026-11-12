@@ -9,12 +9,19 @@ on:
   schedule: daily
   workflow_dispatch:
 
+engine:
+  id: copilot
+  model: claude-sonnet-5.5
+  fallback-models:
+    - gpt-4o
+    - claude-sonnet-4.5
+
 permissions:
   contents: read
   issues: read
   pull-requests: read
 
-  copilot-requests: none
+copilot-requests: write
 network: defaults
 
 tools:
