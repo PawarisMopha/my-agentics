@@ -1,0 +1,34 @@
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "google.golang.org/genai"
+    "google.golang.org/genai/interactions/models/interactions"
+    "google.golang.org/genai/interactions/models/operations"
+)
+
+func main() {
+    ctx := context.Background()
+    client, err := genai.NewClient(ctx, &genai.ClientConfig{
+        APIKey: "{{ '<var>YOUR_API_KEY</var>' }}",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    res, err := client.Interactions.Create(ctx, operations.CreateInteractionRequest{
+        Body: operations.NewCreateInteractionRequestBody(interactions.CreateModelInteraction{
+            Model: interactions.Model("gemini-4-hydrogen"),
+            Input: interactions.NewInteractionsInput("Explain how AI works in a few sentences."),
+        }),
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    if res.Interaction.OutputText != nil {
+        fmt.Println(*res.Interaction.OutputText)
+    }
+}
