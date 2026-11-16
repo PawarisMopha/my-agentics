@@ -9,7 +9,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.0.0",
     "@langchain/langgraph": "^0.2.0",
-    "ai": "^4.0.0",
+    "ai": "^7.0.172",
     "dotenv": "^16.4.0"
   }
 }
