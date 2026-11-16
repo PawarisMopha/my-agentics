@@ -33,10 +33,11 @@
 
 ## 🚀 Active Agent Workflows
 
-ปัจจุบันมี GitHub Agentic Workflows ที่คอมไพล์พร้อมทำงานบน GitHub Actions ทั้งหมด 2 ตัว:
+ปัจจุบันมี GitHub Agentic Workflows ที่คอมไพล์พร้อมทำงานบน GitHub Actions ทั้งหมด 3 ตัว:
 
 | Workflow | ไฟล์ต้นทาง | LLM Engine | เหตุการณ์กระตุ้น (Triggers) | ความสามารถหลัก |
 | :--- | :--- | :--- | :--- | :--- |
+| **`ci-doctor`** | [ci-doctor.md](.github/workflows/ci-doctor.md) | Gemini 3 Flash | • Workflow run เสร็จสิ้นบน `main`<br>• `workflow_dispatch` | ตรวจจับ Build Failure, วินิจฉัย Root Cause จาก Log, และเปิด PR แก้ไข หรือเปิด Issue รายงานทันที |
 | **`code-helper`** | [code-helper.md](.github/workflows/code-helper.md) | Gemini 3 Flash | • Issues (`opened`, `labeled`)<br>• `workflow_dispatch` | ตรวจสอบ Issue, วางแผนและเขียนโค้ดแก้ไข, รันคำสั่งทดสอบผ่าน bash, และเปิด Pull Request อัตโนมัติ |
 | **`daily-repo-status`** | [daily-repo-status.md](.github/workflows/daily-repo-status.md) | Gemini 3 Flash | • ประจำวัน (`schedule: daily`)<br>• `workflow_dispatch` | รวบรวมข้อมูลกิจกรรมใน Repo (Issues, PRs, Commits) และสร้างสรุปรายงานสถานะประจำวันเป็น Issue |
 
@@ -51,6 +52,8 @@ my-agentics/
 │   │   └── agentic-workflows.md    # Dispatcher prompt สำหรับ gh-aw CLI
 │   ├── skills/                     # คลังทักษะเสริมสำหรับ Agentic Workflows
 │   └── workflows/
+│       ├── ci-doctor.md            # [Source] Workflow วิเคราะห์และแก้ปัญหา CI Build Failure
+│       ├── ci-doctor.lock.yml      # [Compiled] GitHub Actions Workflow
 │       ├── code-helper.md          # [Source] Workflow ช่วยเขียนโค้ดและเปิด PR
 │       ├── code-helper.lock.yml    # [Compiled] GitHub Actions Workflow (ห้ามแก้โดยตรง)
 │       ├── daily-repo-status.md    # [Source] Workflow รายงานสถานะโปรเจกต์ประจำวัน

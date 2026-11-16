@@ -38,6 +38,8 @@ my-agentics/
 │   │   └── agentic-workflows.md    # Dispatcher agent routing
 │   ├── skills/                     # คลังทักษะ (Skills) เสริมสำหรับ Agentic Workflows
 │   └── workflows/                  # Agentic Workflows Source & Locks
+│       ├── ci-doctor.md            # Workflow: ตรวจจับ Build Failure วิเคราะห์สาเหตุและเปิด PR แก้ไข
+│       ├── ci-doctor.lock.yml      # Compiled GitHub Actions (ห้ามแก้ไขด้วยมือ)
 │       ├── code-helper.md          # Workflow: ตรวจจับ Issue แล้วเขียนโค้ดและเปิด PR แก้ไข
 │       ├── code-helper.lock.yml    # Compiled GitHub Actions (ห้ามแก้ไขด้วยมือ)
 │       ├── daily-repo-status.md    # Workflow: วิเคราะห์และสรุปสถานะ Repo ประจำวัน
