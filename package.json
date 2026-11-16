@@ -2,10 +2,14 @@
   "name": "my-agentics-ts",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node test_agents.js"
+  },
   "dependencies": {
-    "ai": "^4.0.0",
     "@ai-sdk/openai": "^1.0.0",
     "@langchain/langgraph": "^0.2.0",
+    "ai": "^4.0.0",
     "dotenv": "^16.4.0"
   }
 }
