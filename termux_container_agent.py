@@ -150,15 +150,31 @@ class TermuxContainerAgent:
         return _run_subprocess(full_cmd)
 
     def _run_with_udocker(self, command: str, *, root: bool) -> subprocess.CompletedProcess:
-        _run_subprocess(["udocker", "pull", self.IMAGE], capture_output=False)
+        """Run *command* inside the udocker engine.
+
+        This implementation ensures a persistent container named
+        ``termux_container_agent`` exists. If it does not, the image is pulled
+        and the container is created. The container is started with the
+        appropriate ``PATH`` environment variable for Termux and uses the
+        Termux‑specific shell location.
+        """
         container_name = "termux_container_agent"
-        args = ["udocker", "run", "--name", container_name]
+        # Verify container existence; pull/create if missing
+        ps_res = _run_subprocess(["udocker", "ps"], capture_output=True)
+        if container_name not in (ps_res.stdout or ""):
+            _run_subprocess(["udocker", "pull", self.IMAGE], capture_output=False)
+            _run_subprocess(["udocker", "create", f"--name={container_name}", self.IMAGE], capture_output=False)
+        # Build run arguments
+        # Build run arguments using the existing container name (no --name flag)
+        args = ["udocker", "run", "-e", "PATH=/data/data/com.termux/files/usr/bin:/system/bin", container_name]
         if root:
             args += ["--entrypoint", self.ENTRYPOINT_ROOT]
-        args += [self.IMAGE, "/bin/sh", "-c", command]
+        # Append the shell and command
+        args += ["/data/data/com.termux/files/usr/bin/sh", "-c", command]
+
         print(f"[DEBUG] Executing udocker: {' '.join(args)}")
         result = _run_subprocess(args)
-        _run_subprocess(["udocker", "rm", container_name], capture_output=False)
+        # Keep the persistent container for future calls (do not remove)
         return result
 
     def _run_with_proot_distro(self, command: str, *, root: bool) -> subprocess.CompletedProcess:
