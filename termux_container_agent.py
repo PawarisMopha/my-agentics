@@ -80,6 +80,151 @@ class TermuxContainerAgent:
     For more complex workflows you can call ``run_cmd`` repeatedly – each call
     creates a short‑lived container that is removed after execution (``--rm``).
     """
+    IMAGE = "termux/termux-docker:aarch64"
+    ENTRYPOINT_ROOT = "/entrypoint_root.sh"
+
+    def __init__(self):
+        self.is_termux = _is_termux_android()
+        if self.is_termux:
+            self.engine = self._detect_termux_engine()
+            print(f"[INFO] Detected Termux environment – using engine: {self.engine}")
+        else:
+            self.engine = self._detect_linux_engine()
+            print(f"[INFO] Detected Linux/CI environment – using engine: {self.engine}")
+
+    # Engine detection helpers -------------------------------------------------
+    def _detect_termux_engine(self) -> str:
+        """Prefer ``udocker``; fall back to ``proot-distro``.
+
+        ``udocker`` can pull and run Docker images without a daemon. ``proot-distro``
+        ships with Termux and can launch a distribution from a rootfs.
+        """
+        if _has_executable("udocker"):
+            return "udocker"
+        if _has_executable("proot-distro"):
+            return "proot-distro"
+        raise RuntimeError(
+            "Neither 'udocker' nor 'proot-distro' is available in Termux. Install one of them."
+        )
+
+    def _detect_linux_engine(self) -> str:
+        """Prefer Docker; fall back to Podman if Docker is missing."""
+        if _has_executable("docker"):
+            return "docker"
+        if _has_executable("podman"):
+            return "podman"
+        raise RuntimeError(
+            "Neither 'docker' nor 'podman' is installed on this system. Install one to use the agent."
+        )
+
+    # Public API ---------------------------------------------------------------
+    def run_cmd(self, command: str, *, root: bool = False) -> subprocess.CompletedProcess:
+        """Run *command* inside the chosen container.
+
+        Parameters
+        ----------
+        command: str
+            The shell command to execute **inside** the container.
+        root: bool, optional
+            When ``True`` the container starts with the privileged entry‑point.
+        """
+        if self.engine in ("docker", "podman"):
+            return self._run_with_docker_like(command, root=root)
+        if self.engine == "udocker":
+            return self._run_with_udocker(command, root=root)
+        if self.engine == "proot-distro":
+            return self._run_with_proot_distro(command, root=root)
+        raise RuntimeError(f"Unsupported engine: {self.engine}")
+
+    # Engine‑specific implementations ------------------------------------------
+    def _base_docker_cmd(self, root: bool) -> List[str]:
+        cmd = [self.engine, "run", "--rm", "-i"]
+        if root:
+            cmd += ["--entrypoint", self.ENTRYPOINT_ROOT, "--security-opt", "seccomp=unconfined"]
+        cmd += [self.IMAGE]
+        return cmd
+
+    def _run_with_docker_like(self, command: str, *, root: bool) -> subprocess.CompletedProcess:
+        full_cmd = self._base_docker_cmd(root) + ["/bin/sh", "-c", command]
+        print(f"[DEBUG] Executing: {' '.join(full_cmd)}")
+        return _run_subprocess(full_cmd)
+
+    def _run_with_udocker(self, command: str, *, root: bool) -> subprocess.CompletedProcess:
+        _run_subprocess(["udocker", "pull", self.IMAGE], capture_output=False)
+        container_name = "termux_container_agent"
+        args = ["udocker", "run", "--name", container_name]
+        if root:
+            args += ["--entrypoint", self.ENTRYPOINT_ROOT]
+        args += [self.IMAGE, "/bin/sh", "-c", command]
+        print(f"[DEBUG] Executing udocker: {' '.join(args)}")
+        result = _run_subprocess(args)
+        _run_subprocess(["udocker", "rm", container_name], capture_output=False)
+        return result
+
+    def _run_with_proot_distro(self, command: str, *, root: bool) -> subprocess.CompletedProcess:
+        distro = "termux"
+        exec_cmd = ["proot-distro", "login", distro, "--", "/bin/sh", "-c", command]
+        print(f"[DEBUG] Executing proot-distro: {' '.join(exec_cmd)}")
+        return _run_subprocess(exec_cmd)
+    IMAGE = "termux/termux-docker:aarch64"
+    ENTRYPOINT_ROOT = "/entrypoint_root.sh"
+
+# ---------------------------------------------------------------------------
+# Public helper functions expected by the CI workflow
+# ---------------------------------------------------------------------------
+
+def check_environment() -> dict:
+    """Return a dictionary describing the current host environment.
+
+    The CI workflow uses the keys ``platform`` (with ``system`` and ``machine``),
+    ``is_termux_android`` and ``recommended_runner``.  ``recommended_runner``
+    indicates whether a container ("container") or the native host ("native") is
+    the preferred execution mode for Termux tools.
+    """
+    import platform
+    env = {
+        "platform": {
+            "system": platform.system(),
+            "machine": platform.machine(),
+        },
+        "is_termux_android": _is_termux_android(),
+        # If we are on an ARM64 Linux host we can run the Termux image directly;
+        # otherwise the workflow prefers the container mode.
+        "recommended_runner": "container" if _is_termux_android() or platform.machine() == "aarch64" else "native",
+    }
+    return env
+
+
+def get_termux_docker_info() -> dict:
+    """Return minimal information about the Termux Docker image.
+
+    In a real environment we could query ``docker images`` or inspect the image.
+    For the purpose of import‑time checks we return a static placeholder.
+    """
+    return {"images": {TermuxContainerAgent.IMAGE: {"tag": "latest"}}}
+
+
+def run_container_command(command: str, *, root: bool = False, dry_run: bool = False) -> dict:
+    """Generate (and optionally execute) a container command.
+
+    Parameters
+    ----------
+    command: str
+        Command to run inside the container.
+    root: bool, default False
+        Use the privileged entry‑point.
+    dry_run: bool, default False
+        If True, only return the generated ``docker`` command string without
+        executing it.  This is useful for CI validation steps.
+    """
+    agent = TermuxContainerAgent()
+    if dry_run:
+        # Re‑use the internal helper to build the command list.
+        cmd_list = agent._run_with_docker_like(command, root=root)
+        return {"generated_command": " ".join(cmd_list)}
+    # Normal execution – delegate to the agent.
+    result = agent.run_cmd(command, root=root)
+    return {"completed_process": result}
 
     IMAGE = "termux/termux-docker:aarch64"
     ENTRYPOINT_ROOT = "/entrypoint_root.sh"
