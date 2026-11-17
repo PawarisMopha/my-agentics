@@ -83,6 +83,7 @@ jobs:
             bash -c "
               echo '=== Running as ROOT in Termux container ===' && \
               id && \
+          export PATH=/data/data/com.termux/files/usr/bin:$PATH && \
               pip install python-dotenv httpx rich 2>/dev/null | tail -3 && \
               python3 test_python_agents.py && \
               echo '✅ test_python_agents.py (root) PASSED'
