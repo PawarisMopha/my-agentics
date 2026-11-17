@@ -10,6 +10,6 @@
     "@ai-sdk/openai": "^4.0.118",
     "@langchain/langgraph": "^1.7.5",
     "ai": "^7.0.173",
-    "dotenv": "^16.4.0"
+    "dotenv": "^18.0.10"
   }
 }
