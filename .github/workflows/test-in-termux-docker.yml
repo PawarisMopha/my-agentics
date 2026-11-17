@@ -1,0 +1,207 @@
+name: Test in Termux Docker Container
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:  # รันด้วยตนเองได้จาก GitHub UI
+
+# ─────────────────────────── PERMISSIONS ──────────────────────────────────
+permissions:
+  contents: read
+
+# ─────────────────────────── JOBS ─────────────────────────────────────────
+jobs:
+  test-in-termux-docker:
+    name: "🐳 Test inside termux/termux-docker:aarch64"
+    runs-on: ubuntu-latest
+
+    steps:
+      # ───── 1. Checkout ─────────────────────────────────────────────────
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+
+      # ───── 2. Setup QEMU (สำหรับรัน ARM64 container บน x86_64 host) ────
+      - name: "⚙️ Setup QEMU (ARM64 emulation)"
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      # ───── 3. Pull Termux Docker Image ─────────────────────────────────
+      - name: "📦 Pull termux/termux-docker:aarch64"
+        run: |
+          docker pull termux/termux-docker:aarch64
+          echo "✅ Image pulled successfully"
+          docker image inspect termux/termux-docker:aarch64 \
+            --format '{{.Architecture}} / {{.Os}} / Size: {{.Size}}'
+
+      # ───── 4. Smoke test — เข้า container แล้วรัน basic check ───────────
+      - name: "🔍 Smoke test — verify Termux environment inside container"
+        run: |
+          docker run --rm \
+            --platform linux/arm64 \
+            --security-opt seccomp=unconfined \
+            termux/termux-docker:aarch64 \
+            bash -c "
+              echo '=== Termux Container Environment ===' && \
+              uname -a && \
+              echo 'PATH: '\$PATH && \
+              which python3 || echo 'python3: not in PATH (use pkg install python)' && \
+              which node   || echo 'node: not in PATH (use pkg install nodejs)' && \
+              echo '✅ Termux environment is running!'
+            "
+
+      # ───── 5. รัน test_python_agents.py ใน Termux container ─────────────
+      - name: "🐍 Run test_python_agents.py inside Termux Docker (user mode)"
+        run: |
+          docker run --rm \
+            --platform linux/arm64 \
+            --security-opt seccomp=unconfined \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            termux/termux-docker:aarch64 \
+            bash -c "
+              echo '=== Installing Python dependencies ===' && \
+              pkg install -y python 2>/dev/null || true && \
+              pip install python-dotenv httpx rich 2>/dev/null | tail -3 && \
+              echo '=== Running test_python_agents.py ===' && \
+              python3 test_python_agents.py && \
+              echo '✅ test_python_agents.py PASSED'
+            "
+
+      # ───── 6. รัน test_python_agents.py ด้วย root entrypoint ──────────
+      - name: "🔐 Run test_python_agents.py (root entrypoint)"
+        run: |
+          docker run --rm \
+            --platform linux/arm64 \
+            --security-opt seccomp=unconfined \
+            --entrypoint /entrypoint_root.sh \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            termux/termux-docker:aarch64 \
+            bash -c "
+              echo '=== Running as ROOT in Termux container ===' && \
+              id && \
+              pip install python-dotenv httpx rich 2>/dev/null | tail -3 && \
+              python3 test_python_agents.py && \
+              echo '✅ test_python_agents.py (root) PASSED'
+            "
+
+      # ───── 7. รัน test_agents.js ใน Termux container ───────────────────
+      - name: "🟨 Run test_agents.js inside Termux Docker"
+        run: |
+          docker run --rm \
+            --platform linux/arm64 \
+            --security-opt seccomp=unconfined \
+            -v "${{ github.workspace }}:/workspace" \
+            -w /workspace \
+            termux/termux-docker:aarch64 \
+            bash -c "
+              echo '=== Installing Node.js dependencies ===' && \
+              pkg install -y nodejs 2>/dev/null || true && \
+              node --version && \
+              npm install --prefer-offline 2>/dev/null | tail -5 || npm install | tail -5 && \
+              echo '=== Running test_agents.js ===' && \
+              node test_agents.js && \
+              echo '✅ test_agents.js PASSED'
+            "
+
+      # ───── 8. รัน termux_container_agent.py (dry-run / no API key) ──────
+      - name: "🤖 Validate termux_container_agent.py (import & env check)"
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "⚠️  GEMINI_API_KEY not set — running import/syntax check only"
+            docker run --rm \
+              --platform linux/arm64 \
+              --security-opt seccomp=unconfined \
+              -v "${{ github.workspace }}:/workspace" \
+              -w /workspace \
+              termux/termux-docker:aarch64 \
+              bash -c "
+                pip install google-genai 2>/dev/null | tail -3 && \
+                python3 -c 'import termux_container_agent; print(\"✅ Module import OK\")' && \
+                python3 -c '
+          from termux_container_agent import check_environment, get_termux_docker_info
+          env = check_environment()
+          info = get_termux_docker_info()
+          print(\"✅ check_environment:\", env[\"recommended_runner\"])
+          print(\"✅ get_termux_docker_info images:\", list(info[\"images\"].keys()))
+                '
+              "
+          else
+            echo "✅ GEMINI_API_KEY found — running full agent test"
+            docker run --rm \
+              --platform linux/arm64 \
+              --security-opt seccomp=unconfined \
+              -e GEMINI_API_KEY="$GEMINI_API_KEY" \
+              -v "${{ github.workspace }}:/workspace" \
+              -w /workspace \
+              termux/termux-docker:aarch64 \
+              bash -c "
+                pip install google-genai 2>/dev/null | tail -3 && \
+                python3 termux_container_agent.py 'ตรวจสอบสภาพแวดล้อมและบอกว่าควรใช้ tool ไหน'
+              "
+          fi
+
+      # ───── 9. Summary ──────────────────────────────────────────────────
+      - name: "📋 Test Summary"
+        if: always()
+        run: |
+          echo ""
+          echo "================================================"
+          echo "  Termux Docker Container Test Summary"
+          echo "================================================"
+          echo "  Image used: termux/termux-docker:aarch64"
+          echo "  Host arch:  $(uname -m)"
+          echo "  QEMU:       arm64 emulation enabled"
+          echo "================================================"
+
+  # ─── Job: Native Linux (ไม่ใช้ container, เพื่อ baseline comparison) ───
+  test-native-linux:
+    name: "🐧 Test on native Linux (baseline)"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: "🐍 Setup Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: "📦 Install Python dependencies"
+        run: |
+          pip install python-dotenv httpx rich google-genai 2>/dev/null
+          echo "✅ Dependencies installed"
+
+      - name: "🧪 Run test_python_agents.py (native)"
+        run: python3 test_python_agents.py
+
+      - name: "🔍 Validate termux_container_agent.py (native import)"
+        run: |
+          python3 -c "
+          from termux_container_agent import check_environment, get_termux_docker_info, run_container_command
+          env = check_environment()
+          print('✅ Environment:', env['platform']['system'], env['platform']['machine'])
+          print('✅ Termux:', env['is_termux_android'])
+          print('✅ Recommended runner:', env['recommended_runner'])
+          info = get_termux_docker_info()
+          print('✅ Docker image:', list(info['images'].keys())[0])
+          cmd_result = run_container_command('bash --version', dry_run=True)
+          print('✅ Generated command:', cmd_result['generated_command'][:80])
+          "
+
+      - name: "🟨 Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: "📦 Install Node.js dependencies"
+        run: npm install
+
+      - name: "🧪 Run test_agents.js (native)"
+        run: node test_agents.js
