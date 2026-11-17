@@ -7,9 +7,9 @@
     "test": "node test_agents.js"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^1.0.0",
-    "@langchain/langgraph": "^0.2.0",
-    "ai": "^4.0.0",
+    "@ai-sdk/openai": "^4.0.118",
+    "@langchain/langgraph": "^1.7.5",
+    "ai": "^7.0.173",
     "dotenv": "^16.4.0"
   }
 }
