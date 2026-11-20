@@ -18,7 +18,7 @@ crewai-tools>=0.14.0; python_version < "3.14"
 mcp>=1.0.0
 
 # --- Utilities & Data Validation ---
-pydantic>=2.7.0
+pydantic>=2.14.3
 python-dotenv>=1.0.1
 httpx>=0.27.0
 rich>=13.7.0
