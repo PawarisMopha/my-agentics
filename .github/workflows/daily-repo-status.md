@@ -18,7 +18,26 @@ engine:
   id: gemini
   model: gemini-3-flash-preview
 
-network: defaults
+network:
+  allowed:
+    - defaults
+    - ://googleapis.com
+    - ://googleapis.com
+    - json-schema.org
+    - json.schemastore.org
+    - "*.ubuntu.com"
+    - "*.digicert.com"
+    - "*.globalsign.com"
+    - "*.sectigo.com"
+    - "*.usertrust.com"
+    - "*.identrust.com"
+    - "*.ssl.com"
+    - "*.geotrust.com"
+    - "*.thawte.com"
+    - "*.verisign.com"
+    - "*.symantec.com"
+    - "*.symcb.com"
+    - "*.symcd.com"
 
 tools:
   bash: ["cat", "ls", "find", "grep", "head", "tail", "wc"]
