@@ -21,8 +21,8 @@ engine:
 network:
   allowed:
     - defaults
-    - ://googleapis.com
-    - ://googleapis.com
+    - generativelanguage.googleapis.com
+    - play.googleapis.com
     - json-schema.org
     - json.schemastore.org
     - "*.ubuntu.com"
