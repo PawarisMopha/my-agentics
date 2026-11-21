@@ -14,33 +14,10 @@ permissions:
   issues: read
   pull-requests: read
 
-engine:
-  id: gemini
-  model: gemini-3-flash-preview
-
-network:
-  allowed:
-    - defaults
-    - generativelanguage.googleapis.com
-    - play.googleapis.com
-    - json-schema.org
-    - json.schemastore.org
-    - "*.ubuntu.com"
-    - "*.digicert.com"
-    - "*.globalsign.com"
-    - "*.sectigo.com"
-    - "*.usertrust.com"
-    - "*.identrust.com"
-    - "*.ssl.com"
-    - "*.geotrust.com"
-    - "*.thawte.com"
-    - "*.verisign.com"
-    - "*.symantec.com"
-    - "*.symcb.com"
-    - "*.symcd.com"
+network: defaults
 
 tools:
-  bash: ["cat", "ls", "find", "grep", "head", "tail", "wc"]
+  bash: ["*"]
   github:
     # If in a public repo, setting `lockdown: false` allows
     # reading issues, pull requests and comments from 3rd-parties
@@ -49,15 +26,16 @@ tools:
     min-integrity: none # This workflow is allowed to examine and comment on any issues
 
 safe-outputs:
-  report-failure-as-issue: false
-  threat-detection: false
   mentions: false
   allowed-github-references: []
   create-issue:
     title-prefix: "[repo-status] "
     labels: [report, daily-status]
     close-older-issues: true
-source: githubnext/agentics/workflows/repo-status.md@main
+engine: agy
+
+source: githubnext/agentics/workflows/repo-status.md@139fa09ef17cde4135e696ff8e7af09bc5ddfa6e
+source-sha: "139fa09ef17cde4135e696ff8e7af09bc5ddfa6e"
 ---
 
 # Repo Status
