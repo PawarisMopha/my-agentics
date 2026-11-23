@@ -2,7 +2,10 @@ module my-agentics
 
 go 1.27.4
 
-require google.golang.org/genai v1.79.1
+require (
+	github.com/lpernett/godotenv v0.0.0-20230527005122-0de1d4c5ef5e
+	google.golang.org/genai v1.79.1
+)
 
 require (
 	cloud.google.com/go v0.116.0 // indirect
@@ -13,12 +16,11 @@ require (
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/lpernett/godotenv v0.0.0-20230527005122-0de1d4c5ef5e // indirect
 	go.opencensus.io v0.24.0 // indirect
-	golang.org/x/crypto v0.50.0 // indirect
-	golang.org/x/net v0.53.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/text v0.36.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260414002931-afd174a4e478 // indirect
 	google.golang.org/grpc v1.82.1 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
