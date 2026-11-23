@@ -13,6 +13,7 @@ require (
 	github.com/google/s2a-go v0.1.8 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.4 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
+	github.com/lpernett/godotenv v0.0.0-20230527005122-0de1d4c5ef5e // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.50.0 // indirect
 	golang.org/x/net v0.53.0 // indirect
