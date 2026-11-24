@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
         "os"
+	"time"
 
 	"google.golang.org/genai"
 	"google.golang.org/genai/interactions/models/interactions"
@@ -36,7 +37,7 @@ func main() {
 
 	// เรียกใช้งาน Interactions API ตามตัวอย่างในรูป
 	body := operations.NewCreateInteractionRequestBody(interactions.CreateModelInteraction{
-		Model: interactions.Model("gemini-3.8-flash-preview"),
+		Model: interactions.Model("gemini-3.6-flash"),
 		Input: genai.Ptr(interactions.NewInteractionsInput("Tell me a short joke about programming.")),
 	})
 
