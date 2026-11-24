@@ -5,22 +5,16 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"time"
 
-        "google.golang.org/genai"
+	"github.com/lpernett/godotenv"
 	"google.golang.org/genai"
-	"google.golang.org/genai/interactions"
-	"google.golang.org/genai/operations"
 	"google.golang.org/genai/interactions/models/interactions"
 	"google.golang.org/genai/interactions/models/operations"
-	"github.com/lpernett/godotenv"
 )
 
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), 90*time.Second)
-	defer cancel()
-
+	// 1. โหลดค่าจากไฟล์ .env
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("ไม่พบไฟล์ .env จะใช้ค่าจาก System Environment แทน")
@@ -34,6 +28,10 @@ func main() {
 		log.Fatal("ไม่พบค่า GEMINI_API_KEY หรือ GOOGLE_API_KEY")
 	}
 
+	// 2. ตั้งค่า Timeout และสร้าง Client
+	ctx, cancel := context.WithTimeout(context.Background(), 90*time.Second)
+	defer cancel()
+
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
 		APIKey:  apiKey,
 		Backend: genai.BackendGeminiAPI,
@@ -42,35 +40,30 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// กำหนดหัวข้อที่ต้องการให้ Agent ค้นหาเว็บและสรุปผล
-	prompt := "ค้นหาข่าวอัปเดตล่าสุดเกี่ยวกับ Go programming language และ Open Source AI Tools ในสัปดาห์นี้ แล้วสรุปเป็นภาษาไทยแบบอ่านง่าย แบ่งเป็นหัวข้อ พร้อมแนบลิงก์อ้างอิง"
+	// 3. กำหนดหัวข้อที่ต้องการให้ Agent ค้นหาเว็บและสรุปผล
+	prompt := "ค้นหาข่าวอัปเดตล่าสุดเกี่ยวกับ Go programming language และ Open Source AI Tools ในสัปดาห์นี้ แล้วสรุปเป็นข้อๆ"
 
-	res, err := client.Interactions.Create(ctx, &interactions.CreateModelInteractionParams{
+	// 4. สร้าง Request โดยเปิดใช้งาน Tool Google Search
+	body := operations.NewCreateInteractionRequestBody(interactions.CreateModelInteraction{
 		Model: interactions.Model("gemini-3.6-flash"),
-		Input: interactions.NewInput(prompt),
-		Tools: []interactions.ToolUnion{
-			interactions.NewGoogleSearchTool(),
+		Input: genai.Ptr(interactions.NewInteractionsInput(prompt)),
+		Tools: []interactions.Tool{
+			{
+				GoogleSearch: &interactions.GoogleSearch{},
+			},
 		},
 	})
+
+	res, err := client.Interactions.Create(ctx, operations.CreateInteractionRequest{
+		Body: body,
+	})
 	if err != nil {
-		log.Fatalf("เกิดข้อผิดพลาดในการเรียก Gemini API: %v", err)
+		log.Fatal(err)
 	}
 
-	outputText := ""
+	// 5. แสดงผลลัพธ์ข้อความจาก OutputText
 	if res.Interaction != nil && res.Interaction.GetOutputText() != nil {
-		outputText = *res.Interaction.GetOutputText()
+		fmt.Println(*res.Interaction.GetOutputText())
 	}
-
-	if err := os.MkdirAll("output", 0755); err != nil {
-		log.Fatal(err)
-	}
-
-	filename := filepath.Join("output", fmt.Sprintf("summary-%s.md", time.Now().Format("2006-01-02")))
-	content := fmt.Sprintf("# รายงานสรุปข้อมูลประจำวันที่ %s\n\n%s\n", time.Now().Format("2006-01-02"), outputText)
-
-	if err := os.WriteFile(filename, []byte(content), 0644); err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("สร้างไฟล์สรุปเรียบร้อยแล้ว: %s\n", filename)
 }
+
