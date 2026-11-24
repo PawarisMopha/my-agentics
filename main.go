@@ -16,7 +16,7 @@ func main() {
 	ctx := context.Background()
         err := godotenv.Load()
         if err != nil {
-                log.Fatal("Error loading .env file")
+                log.Println("Error loading .env file")
         }
 
         apiKey := os.Getenv("GOOGLE_API_KEY")

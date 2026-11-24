@@ -1,0 +1,26 @@
+name: Run Go Agent (main.go)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # ทำให้กดสั่งรันเองได้ทุกเมื่อ
+
+jobs:
+  run-go:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run main.go
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: go run main.go
