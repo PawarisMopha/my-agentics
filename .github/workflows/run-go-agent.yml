@@ -3,17 +3,20 @@ name: Run Go Agent (main.go)
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch: # ทำให้กดสั่งรันเองได้ทุกเมื่อ
+  workflow_dispatch:
+
+permissions:
+  contents: write # อนุญาตให้ Agent บันทึกไฟล์สรุปกลับเข้า Repo ได้
 
 jobs:
   run-go:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version-file: 'go.mod'
 
@@ -24,3 +27,11 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: go run main.go
+
+      - name: Commit generated summary file
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add output/
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update agent summary report"
+          git push
