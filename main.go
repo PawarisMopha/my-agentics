@@ -13,7 +13,8 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
         err := godotenv.Load()
         if err != nil {
                 log.Println("Error loading .env file")
@@ -35,7 +36,7 @@ func main() {
 
 	// เรียกใช้งาน Interactions API ตามตัวอย่างในรูป
 	body := operations.NewCreateInteractionRequestBody(interactions.CreateModelInteraction{
-		Model: interactions.Model("gemini-3.8-flash"),
+		Model: interactions.Model("gemini-3.8-flash-preview"),
 		Input: genai.Ptr(interactions.NewInteractionsInput("Tell me a short joke about programming.")),
 	})
 
