@@ -19,7 +19,10 @@ func main() {
                 log.Println("Error loading .env file")
         }
 
-        apiKey := os.Getenv("GOOGLE_API_KEY")
+	apiKey := os.Getenv("GEMINI_API_KEY")
+	if apiKey == "" {
+		apiKey = os.Getenv("GOOGLE_API_KEY")
+	}
 
 	// สร้าง Client แบบระบุ API Key โดยตรง
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
