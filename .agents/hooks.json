@@ -1,10 +1,31 @@
 {
-  "hooks": {
+  "security-gate": {
+    "enabled": true,
     "pre_tool_execution": [
       {
-        "matcher": "*",
-        "command": "python3 /data/data/com.termux/files/home/.agents/hooks-scripts/gate.py",
-        "timeout": 10000
+        "matcher": "code_execution",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ./.agents/hooks-scripts/gate.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "auto-format-and-audit": {
+    "enabled": true,
+    "post_tool_execution": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ./.agents/hooks-scripts/post_hook.py",
+            "timeout": 15
+          }
+        ]
       }
     ]
   }
