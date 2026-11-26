@@ -3,7 +3,7 @@ langgraph>=1.2.21
 langchain>=1.4.10
 langchain-core>=1.7.7
 langchain-community>=0.3.0
-crewai>=0.80.0; python_version < "3.14"
+crewai>=1.15.44; python_version < "3.14"
 
 # --- LLM Provider Integrations (Gemini, OpenAI, Anthropic) ---
 google-genai>=2.33.0
