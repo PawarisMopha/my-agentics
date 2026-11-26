@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "pre_tool_execution": [
+      {
+        "matcher": "*",
+        "command": "python3 /data/data/com.termux/files/home/.agents/hooks-scripts/gate.py",
+        "timeout": 10000
+      }
+    ]
+  }
+}
